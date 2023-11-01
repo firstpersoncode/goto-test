@@ -219,7 +219,7 @@ export const useContactMutations = ({
     const newContact = res.data?.insert_contact_one;
     if (newContact) {
       dispatchers.setContacts((currContacts) => [...currContacts, newContact]);
-      if (context.selectedContact) dispatchers.setSelectedContact(newContact);
+      dispatchers.setSelectedContact(newContact);
       dispatchers.setMode("read");
     }
   };
