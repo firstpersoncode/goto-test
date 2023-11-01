@@ -36,7 +36,7 @@ export default function ContactList({
           position: "sticky",
           top: 0,
           zIndex: 2,
-          mb: -2
+          mb: -2,
         }}
       >
         <Stack
@@ -76,7 +76,7 @@ export default function ContactList({
         </Stack>
       </Paper>
 
-      <List>
+      <List id={label.toLowerCase()}>
         {list.map((contact, i) => (
           <ListItem disablePadding key={i}>
             <ContactItem contact={contact} label={label} />

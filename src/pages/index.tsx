@@ -41,12 +41,12 @@ export default function Home() {
           overflowX: "hidden",
           overflowY: "auto",
           backgroundColor: (theme) => theme.palette.background.default,
-          py: { xs: "55px", sm: "60px" },
+          py: "55px",
         }}
       >
         <Toolbar />
         <Container
-          maxWidth="sm"
+          maxWidth="md"
           sx={{ minHeight: "100%", position: "relative" }}
         >
           <Grid container spacing={2}>

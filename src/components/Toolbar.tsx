@@ -2,20 +2,30 @@ import { useEffect, useState } from "react";
 import { Close, Contacts, Search } from "@mui/icons-material";
 import {
   AppBar,
+  Button,
+  ButtonGroup,
   Container,
   IconButton,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
 import Alert, { useAlert } from "./Alert";
+import { useTheme } from "@/context/Theme";
 
 export default function Searchbar() {
   const { handleSearch } = useContact();
   const [displaySearch, setDisplaySearch] = useState("");
   const [clicked, setClicked] = useState(0);
   const { alert, setAlert, onClose } = useAlert();
+  const { viewMode } = useTheme();
+
+  const autoScrollToList = (label: string) => {
+    const main = document.getElementById("main");
+    const list = document.getElementById(label);
+    if (main && list)
+      main.scrollTo({ top: list.offsetTop - 50, behavior: "smooth" });
+  };
 
   useEffect(() => {
     handleSearch(displaySearch);
@@ -25,7 +35,7 @@ export default function Searchbar() {
   return (
     <>
       <AppBar position="fixed" sx={{ top: 0 }}>
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <Stack
             sx={{
               flexDirection: "row",
@@ -60,15 +70,28 @@ export default function Searchbar() {
               >
                 <Contacts />
               </IconButton>
-              <Typography
-                sx={{
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  display: { xs: "none", sm: "block" },
-                }}
-              >
-                GOTO Phonebook
-              </Typography>
+              {viewMode !== "column" && (
+                <ButtonGroup
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    color: (theme) => theme.palette.text.primary,
+                  }}
+                >
+                  <Button
+                    sx={{ fontSize: { xs: "8px", md: "12px" } }}
+                    onClick={() => autoScrollToList("regular")}
+                  >
+                    Regular
+                  </Button>
+                  <Button
+                    sx={{ fontSize: { xs: "8px", md: "12px" } }}
+                    onClick={() => autoScrollToList("favorite")}
+                  >
+                    Favorite
+                  </Button>
+                </ButtonGroup>
+              )}
             </Stack>
 
             {/** =================================== SEARCH FORM =================================== */}
@@ -81,6 +104,7 @@ export default function Searchbar() {
                 "& .MuiInputBase-root": {
                   height: 28,
                 },
+                maxWidth: 400,
               }}
               inputProps={{ sx: { fontSize: "12px" } }}
               InputLabelProps={{ sx: { fontSize: "12px" } }}

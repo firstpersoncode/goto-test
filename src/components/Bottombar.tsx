@@ -52,7 +52,7 @@ export default function Bottombar() {
         }}
       >
         <Container
-          maxWidth="sm"
+          maxWidth="md"
           sx={{
             display: "flex",
             justifyContent: "space-between",

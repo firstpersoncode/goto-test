@@ -12,9 +12,9 @@ export default function SearchResult() {
 
   return (
     <Container
-      maxWidth="sm"
+      maxWidth="md"
       sx={{
-        pt: "70px",
+        py: "55px",
         position: "fixed",
         top: 0,
         left: 0,
