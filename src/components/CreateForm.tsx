@@ -7,12 +7,10 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Fab,
   IconButton,
   LinearProgress,
   Stack,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
@@ -33,7 +31,6 @@ export default function CreateForm() {
     removePhone,
   } = useContactForm();
 
-  const [open, setOpen] = useState(false);
   const { alert, setAlert, onClose } = useAlert();
   const [cancelConfirmation, setCancelConfirmation] = useState(false);
   const [saveConfirmation, setSaveConfirmation] = useState(false);
@@ -44,37 +41,27 @@ export default function CreateForm() {
 
   return (
     <>
-      {/** =================================== CREATE ACTION =================================== */}
-
-      <Tooltip title="Create Contact">
-        <Fab
-          onClick={() => {
-            setOpen(true);
-            setMode("create");
-          }}
-          color="error"
-          sx={{
-            mt: -5,
-            width: { xs: 50, sm: 65 },
-            height: { xs: 50, sm: 65 },
-            position: { xs: "absolute", sm: "relative" },
-            mx: "auto",
-            left: 0,
-            right: 0,
-          }}
-        >
-          <Add />
-        </Fab>
-      </Tooltip>
-
       {/** =================================== CREATE MODAL =================================== */}
 
       <Dialog
         maxWidth="sm"
         fullWidth
         fullScreen={isMobile}
-        open={open && mode === "create"}
+        open={mode === "create"}
         onClose={() => setCancelConfirmation(true)}
+        disablePortal={!isMobile}
+        disableScrollLock={!isMobile}
+        hideBackdrop={!isMobile}
+        disableEnforceFocus={!isMobile}
+        sx={{
+          position: { xs: "fixed", md: "static" },
+          "& .MuiPaper-root": {
+            maxHeight: { xs: "calc(100% - 64px)", md: "80vh" },
+            mx: 0,
+            my: 2,
+            width: "100%",
+          },
+        }}
       >
         {/** =================================== HEADER =================================== */}
 
@@ -170,7 +157,7 @@ export default function CreateForm() {
         open={cancelConfirmation}
         onYes={() => {
           setCancelConfirmation(false);
-          setOpen(false);
+          setMode(undefined);
         }}
         onNo={() => setCancelConfirmation(false)}
       >
@@ -184,7 +171,7 @@ export default function CreateForm() {
           try {
             await handleInsertContact(form);
             setSaveConfirmation(false);
-            setOpen(false);
+            setMode(undefined);
             setForm(defaultForm);
 
             setAlert({

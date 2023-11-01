@@ -1,13 +1,14 @@
 import {
   AppBar,
   Container,
+  Fab,
   IconButton,
   Slide,
   Stack,
   Switch,
   Tooltip,
 } from "@mui/material";
-import { Delete, Star, ViewColumn, ViewStream } from "@mui/icons-material";
+import { Add, Delete, Star, ViewColumn, ViewStream } from "@mui/icons-material";
 import { useContact } from "@/context/Contact";
 import { useTheme } from "@/context/Theme";
 import { useScrolled } from "@/libs/hooks";
@@ -23,7 +24,8 @@ export default function Bottombar() {
     selectedFavOnly,
     selectedRegOnly,
   } = useContact();
-  const { colorMode, toggleColorMode, viewMode, toggleViewMode } = useTheme();
+  const { colorMode, toggleColorMode, viewMode, toggleViewMode, isMobile } =
+    useTheme();
   const scrolled = useScrolled();
 
   const favOnly = useMemo(
@@ -35,12 +37,10 @@ export default function Bottombar() {
     [selectedFavOnly, selectedRegOnly]
   );
 
+  const display = !isMobile || Boolean(selectedContacts.length) || !scrolled;
+
   return (
-    <Slide
-      appear={false}
-      direction="up"
-      in={!isSearching && (Boolean(selectedContacts.length) || !scrolled)}
-    >
+    <Slide appear={false} direction="up" in={!isSearching && display}>
       <AppBar
         position="fixed"
         sx={{
@@ -52,7 +52,7 @@ export default function Bottombar() {
         }}
       >
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           sx={{
             display: "flex",
             justifyContent: "space-between",
@@ -130,7 +130,25 @@ export default function Bottombar() {
             )}
 
             {/** =================================== CREATE ACTION =================================== */}
-            <CreateForm />
+            <Tooltip title="Create Contact">
+              <Fab
+                onClick={() => {
+                  setMode("create");
+                }}
+                color="error"
+                sx={{
+                  mt: -5,
+                  width: { xs: 50, sm: 65 },
+                  height: { xs: 50, sm: 65 },
+                  position: { xs: "absolute", sm: "relative" },
+                  mx: "auto",
+                  left: 0,
+                  right: 0,
+                }}
+              >
+                <Add />
+              </Fab>
+            </Tooltip>
           </Stack>
         </Container>
       </AppBar>

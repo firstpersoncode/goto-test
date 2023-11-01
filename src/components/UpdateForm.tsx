@@ -47,6 +47,19 @@ export default function UpdateForm() {
         fullScreen={isMobile}
         open={Boolean(selectedContact) && mode === "update"}
         onClose={() => setCancelConfirmation(true)}
+        disablePortal={!isMobile}
+        disableScrollLock={!isMobile}
+        hideBackdrop={!isMobile}
+        disableEnforceFocus={!isMobile}
+        sx={{
+          position: { xs: "fixed", md: "static" },
+          "& .MuiPaper-root": {
+            maxHeight: { xs: "calc(100% - 64px)", md: "80vh" },
+            mx: 0,
+            my: 2,
+            width: "100%",
+          },
+        }}
       >
         {/** =================================== HEADER =================================== */}
 

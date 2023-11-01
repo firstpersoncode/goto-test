@@ -104,7 +104,7 @@ const initialContext: ContactContext = {
   selectedContacts: [],
   selectedFavOnly: [],
   selectedRegOnly: [],
-  mode: "read",
+  mode: undefined,
   handleInsertContact: async (_: ContactFormInput) => {},
   handleUpdateContact: async (_: number, _contact: ContactFormInput) => {},
   handleDeleteContact: async (_: number) => {},

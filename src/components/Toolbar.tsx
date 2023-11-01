@@ -35,7 +35,7 @@ export default function Searchbar() {
   return (
     <>
       <AppBar position="fixed" sx={{ top: 0 }}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Stack
             sx={{
               flexDirection: "row",

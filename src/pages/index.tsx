@@ -1,26 +1,36 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   CircularProgress,
   Container,
   Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Typography,
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
 import { useTheme } from "@/context/Theme";
 import Meta from "@/components/Meta";
 import Toolbar from "@/components/Toolbar";
+import CreateForm from "@/components/CreateForm";
 import UpdateForm from "@/components/UpdateForm";
 import DeleteForm from "@/components/DeleteForm";
 import Bottombar from "@/components/Bottombar";
 import ContactDetail from "@/components/ContactDetail";
 import ContactList from "@/components/ContactList";
-import SearchResult from "@/components/SearchResult";
 import BulkDeleteForm from "@/components/BulkDeleteForm";
+import { Check, Circle } from "@mui/icons-material";
+import About from "@/components/About";
 
 export default function Home() {
   const {
+    searchResult,
     isSearching,
     loadingFetch,
+    loadingSearch,
     list,
     favList,
     selectedFavOnly,
@@ -46,27 +56,57 @@ export default function Home() {
       >
         <Toolbar />
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           sx={{ minHeight: "100%", position: "relative" }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={viewMode === "column" ? 6 : 12}>
-              <ContactList
-                label="Favorite"
-                list={favList}
-                countSelected={selectedFavOnly.length}
-              />
-            </Grid>
+            <Grid item xs={12} sm={7} order={{ xs: 2, sm: 1 }}>
+              <Grid container spacing={2}>
+                {isSearching ? (
+                  <Grid item xs={12}>
+                    <ContactList
+                      label="Result"
+                      list={searchResult}
+                      countSelected={searchResult.length}
+                      isSearchResult
+                    />
+                  </Grid>
+                ) : (
+                  <>
+                    <Grid item xs={12} sm={viewMode === "column" ? 6 : 12}>
+                      <ContactList
+                        label="Favorite"
+                        list={favList}
+                        countSelected={selectedFavOnly.length}
+                      />
+                    </Grid>
 
-            <Grid item xs={12} sm={viewMode === "column" ? 6 : 12}>
-              <ContactList
-                label="Regular"
-                list={list}
-                countSelected={selectedRegOnly.length}
-              />
+                    <Grid item xs={12} sm={viewMode === "column" ? 6 : 12}>
+                      <ContactList
+                        label="Regular"
+                        list={list}
+                        countSelected={selectedRegOnly.length}
+                      />
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={5} order={{ xs: 1, sm: 2 }}>
+              <Box sx={{ position: "sticky", top: 0 }}>
+                {/* Modals */}
+                <ContactDetail />
+                <CreateForm />
+                <UpdateForm />
+                <DeleteForm />
+                <BulkDeleteForm />
+
+                <About />
+              </Box>
             </Grid>
           </Grid>
-          {loadingFetch && (
+
+          {(loadingFetch || loadingSearch) && (
             <Box
               sx={{
                 position: "absolute",
@@ -89,15 +129,7 @@ export default function Home() {
           )}
         </Container>
         <Bottombar />
-
-        {isSearching && <SearchResult />}
       </Box>
-
-      {/* Modals */}
-      <ContactDetail />
-      <UpdateForm />
-      <DeleteForm />
-      <BulkDeleteForm />
     </>
   );
 }
