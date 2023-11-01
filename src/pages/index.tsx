@@ -3,8 +3,6 @@ import {
   CircularProgress,
   Container,
   Grid,
-  LinearProgress,
-  Stack,
   Typography,
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
@@ -21,6 +19,7 @@ import BulkDeleteForm from "@/components/BulkDeleteForm";
 
 export default function Home() {
   const {
+    isSearching,
     loadingFetch,
     list,
     favList,
@@ -90,6 +89,8 @@ export default function Home() {
           )}
         </Container>
         <Bottombar />
+
+        {isSearching && <SearchResult />}
       </Box>
 
       {/* Modals */}
@@ -97,7 +98,6 @@ export default function Home() {
       <UpdateForm />
       <DeleteForm />
       <BulkDeleteForm />
-      <SearchResult />
     </>
   );
 }

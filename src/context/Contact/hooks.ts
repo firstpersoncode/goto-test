@@ -29,6 +29,7 @@ import type { Contact, ContactFormInput, Mode, Phone } from ".";
 type HookContactQueriesDispatcher = {
   setContacts: Dispatch<SetStateAction<Contact[]>>;
   setSearchResult: Dispatch<SetStateAction<Contact[]>>;
+  setIsSearching: Dispatch<SetStateAction<boolean>>;
 };
 
 type HookContactQueriesParams = {
@@ -93,6 +94,14 @@ export const useContactQueries = ({
   });
 
   const handleSearch = useDebounce(async (search: string) => {
+    if (!search) {
+      dispatchers.setSearchResult([]);
+      dispatchers.setIsSearching(false)
+      return;
+    }
+
+    dispatchers.setIsSearching(true)
+
     const res = await searchContact({
       variables: { search },
     });
@@ -108,7 +117,7 @@ export const useContactQueries = ({
             : contact;
         })
       );
-    }
+    } else dispatchers.setSearchResult([])
   }, 500);
 
   const handleGetContact = async (offset: number, limit: number) => {

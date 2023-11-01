@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
-import { Contacts, Search } from "@mui/icons-material";
+import { Close, Contacts, Search } from "@mui/icons-material";
 import {
   AppBar,
   Container,
   IconButton,
-  Snackbar,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
 import Alert, { useAlert } from "./Alert";
 
 export default function Searchbar() {
-  const { setMode } = useContact();
+  const { handleSearch } = useContact();
+  const [displaySearch, setDisplaySearch] = useState("");
   const [clicked, setClicked] = useState(0);
   const { alert, setAlert, onClose } = useAlert();
+
+  useEffect(() => {
+    handleSearch(displaySearch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displaySearch]);
 
   return (
     <>
@@ -67,13 +73,36 @@ export default function Searchbar() {
 
             {/** =================================== SEARCH FORM =================================== */}
 
-            <IconButton
-              color="inherit"
-              edge="end"
-              onClick={() => setMode("search")}
-            >
-              <Search />
-            </IconButton>
+            <TextField
+          fullWidth
+          sx={{
+            backgroundColor: (theme) => theme.palette.background.paper,
+            borderRadius: 1,
+          }}
+          inputProps={{ sx: { fontSize: "12px" } }}
+          InputLabelProps={{ sx: { fontSize: "12px" } }}
+          label="Search ..."
+          size="small"
+          variant="filled"
+          value={displaySearch}
+          onChange={(e) => setDisplaySearch(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <Stack
+                sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}
+              >
+                {displaySearch && (
+                  <IconButton size="small" onClick={() => setDisplaySearch("")}>
+                    <Close sx={{ fontSize: "16px" }} />
+                  </IconButton>
+                )}
+                <IconButton size="small" edge="end">
+                  <Search sx={{ fontSize: "16px" }} />
+                </IconButton>
+              </Stack>
+            ),
+          }}
+        />
           </Stack>
         </Container>
       </AppBar>

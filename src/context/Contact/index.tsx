@@ -49,7 +49,6 @@ export type Mode =
   | "update"
   | "delete"
   | "bulk-delete"
-  | "search"
   | undefined;
 
 interface ContactContext {
@@ -59,6 +58,7 @@ interface ContactContext {
   list: Contact[];
   favList: Contact[];
   searchResult: Contact[];
+  isSearching: boolean;
   selectedContact: Contact | undefined;
   selectedContacts: Contact[];
   selectedFavOnly: Contact[];
@@ -99,6 +99,7 @@ const initialContext: ContactContext = {
   list: [],
   favList: [],
   searchResult: [],
+  isSearching: false,
   selectedContact: undefined,
   selectedContacts: [],
   selectedFavOnly: [],
@@ -129,6 +130,7 @@ export default function ContactProvider({ children }: ContactProviderProps) {
 
   const [contacts, setContacts] = useState(initialContext.list);
   const [searchResult, setSearchResult] = useState(initialContext.searchResult);
+  const [isSearching, setIsSearching] = useState(initialContext.isSearching)
   const [selectedContact, setSelectedContact] = useState(
     initialContext.selectedContact
   );
@@ -277,7 +279,7 @@ export default function ContactProvider({ children }: ContactProviderProps) {
   }
 
   const { loadingFetch, loadingSearch, handleSearch, handleGetContact } =
-    useContactQueries({ dispatchers: { setContacts, setSearchResult } });
+    useContactQueries({ dispatchers: { setContacts, setSearchResult, setIsSearching } });
 
   const {
     loadingInsert,
@@ -322,21 +324,25 @@ export default function ContactProvider({ children }: ContactProviderProps) {
         list,
         favList,
         searchResult,
+        isSearching,
         selectedContact,
         selectedContacts,
         selectedFavOnly,
         selectedRegOnly,
         mode,
-        handleInsertContact,
-        handleUpdateContact,
-        handleDeleteContact,
-        handleBulkDeleteContact,
+        
         handleSearch,
         toggleFavorite,
         bulkToggleFavorites,
         selectContact,
         selectContacts,
         selectAllContacts,
+
+        handleInsertContact,
+        handleUpdateContact,
+        handleDeleteContact,
+        handleBulkDeleteContact,
+
         setMode,
       }}
     >

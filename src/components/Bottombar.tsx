@@ -16,6 +16,7 @@ import { useMemo } from "react";
 
 export default function Bottombar() {
   const {
+    isSearching,
     selectedContacts,
     bulkToggleFavorites,
     setMode,
@@ -38,7 +39,7 @@ export default function Bottombar() {
     <Slide
       appear={false}
       direction="up"
-      in={Boolean(selectedContacts.length) || !scrolled}
+      in={!isSearching && (Boolean(selectedContacts.length) || !scrolled)}
     >
       <AppBar
         position="fixed"

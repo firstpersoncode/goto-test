@@ -33,7 +33,7 @@ export default function ContactList({
       <Paper
         sx={{
           px: 1,
-          position: isSearchResult ? "static" : "sticky",
+          position: "sticky",
           top: 0,
           zIndex: 2,
           mb: -2
