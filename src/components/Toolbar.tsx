@@ -31,7 +31,7 @@ export default function Searchbar() {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              py: 2,
+              py: 1,
               gap: 2,
             }}
           >
@@ -74,35 +74,41 @@ export default function Searchbar() {
             {/** =================================== SEARCH FORM =================================== */}
 
             <TextField
-          fullWidth
-          sx={{
-            backgroundColor: (theme) => theme.palette.background.paper,
-            borderRadius: 1,
-          }}
-          inputProps={{ sx: { fontSize: "12px" } }}
-          InputLabelProps={{ sx: { fontSize: "12px" } }}
-          label="Search ..."
-          size="small"
-          variant="filled"
-          value={displaySearch}
-          onChange={(e) => setDisplaySearch(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <Stack
-                sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}
-              >
-                {displaySearch && (
-                  <IconButton size="small" onClick={() => setDisplaySearch("")}>
-                    <Close sx={{ fontSize: "16px" }} />
-                  </IconButton>
-                )}
-                <IconButton size="small" edge="end">
-                  <Search sx={{ fontSize: "16px" }} />
-                </IconButton>
-              </Stack>
-            ),
-          }}
-        />
+              fullWidth
+              sx={{
+                backgroundColor: (theme) => theme.palette.background.paper,
+                borderRadius: 1,
+                "& .MuiInputBase-root": {
+                  height: 28,
+                },
+              }}
+              inputProps={{ sx: { fontSize: "12px" } }}
+              InputLabelProps={{ sx: { fontSize: "12px" } }}
+              placeholder="Search ..."
+              size="small"
+              // variant="outlined"
+              value={displaySearch}
+              onChange={(e) => setDisplaySearch(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <Stack
+                    sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}
+                  >
+                    {displaySearch && (
+                      <IconButton
+                        size="small"
+                        onClick={() => setDisplaySearch("")}
+                      >
+                        <Close sx={{ fontSize: "16px" }} />
+                      </IconButton>
+                    )}
+                    <IconButton size="small" edge="end">
+                      <Search sx={{ fontSize: "16px" }} />
+                    </IconButton>
+                  </Stack>
+                ),
+              }}
+            />
           </Stack>
         </Container>
       </AppBar>

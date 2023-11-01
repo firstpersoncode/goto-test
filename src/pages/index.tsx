@@ -41,7 +41,7 @@ export default function Home() {
           overflowX: "hidden",
           overflowY: "auto",
           backgroundColor: (theme) => theme.palette.background.default,
-          py: "70px",
+          py: { xs: "55px", sm: "60px" },
         }}
       >
         <Toolbar />
@@ -49,7 +49,7 @@ export default function Home() {
           maxWidth="sm"
           sx={{ minHeight: "100%", position: "relative" }}
         >
-          <Grid container spacing={2} sx={{ py: 2 }}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={viewMode === "column" ? 6 : 12}>
               <ContactList
                 label="Favorite"
