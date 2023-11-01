@@ -24,7 +24,7 @@ import {
   updateContactPhones,
   validateCharacters,
 } from "@/libs/utils";
-import type { Contact, ContactFormInput, Phone } from ".";
+import type { Contact, ContactFormInput, Mode, Phone } from ".";
 
 type HookContactQueriesDispatcher = {
   setContacts: Dispatch<SetStateAction<Contact[]>>;
@@ -43,7 +43,9 @@ type HookContactMutationsContext = {
 type HookContactMutationsDispatcher = {
   setContacts: Dispatch<SetStateAction<Contact[]>>;
   setSearchResult: Dispatch<SetStateAction<Contact[]>>;
+  setSelectedContact: Dispatch<SetStateAction<Contact | undefined>>;
   setSelectedContacts: Dispatch<SetStateAction<Contact[]>>;
+  setMode: Dispatch<SetStateAction<Mode>>;
 };
 
 type HookContactMutationsParams = {
@@ -206,8 +208,11 @@ export const useContactMutations = ({
     if (res.errors) throw new Error("Something went wrong");
 
     const newContact = res.data?.insert_contact_one;
-    if (newContact)
+    if (newContact) {
       dispatchers.setContacts((currContacts) => [...currContacts, newContact]);
+      if (context.selectedContact) dispatchers.setSelectedContact(newContact);
+      dispatchers.setMode("read");
+    }
   };
 
   const handleUpdateContact = async (
@@ -238,8 +243,9 @@ export const useContactMutations = ({
       );
     }
 
-    const contactPhonesUpdated =
-      Boolean(newNumbers.length || updatedNumbers.length || deletedNumbers.length);
+    const contactPhonesUpdated = Boolean(
+      newNumbers.length || updatedNumbers.length || deletedNumbers.length
+    );
 
     if (contactDetailUpdated) {
       const { data } = await apolloClient.query({
@@ -281,6 +287,9 @@ export const useContactMutations = ({
           );
           return updatedContacts;
         });
+
+        if (context.selectedContact)
+          dispatchers.setSelectedContact(updatedContact);
       }
     }
 
@@ -320,25 +329,33 @@ export const useContactMutations = ({
       }
 
       dispatchers.setContacts((currContacts) => {
-        return updateContactPhones({
+        const { contacts, contact } = updateContactPhones({
           contactId,
           contacts: currContacts,
           newNumbers,
           updatedNumbers,
           deletedNumbers,
         });
+
+        if (context.selectedContact) dispatchers.setSelectedContact(contact);
+
+        return contacts;
       });
 
       dispatchers.setSearchResult((currContacts) => {
-        return updateContactPhones({
+        const { contacts } = updateContactPhones({
           contactId,
           contacts: currContacts,
           newNumbers,
           updatedNumbers,
           deletedNumbers,
         });
+
+        return contacts;
       });
     }
+
+    if (context.selectedContact) dispatchers.setMode("read");
   };
 
   const handleDeleteContact = async (contactId: number) => {

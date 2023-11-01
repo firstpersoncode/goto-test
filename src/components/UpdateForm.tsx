@@ -163,8 +163,6 @@ export default function UpdateForm() {
             try {
               await handleUpdateContact(selectedContact.id, form);
               setSaveConfirmation(false);
-              selectContact(undefined);
-
               setAlert({
                 open: true,
                 severity: "success",

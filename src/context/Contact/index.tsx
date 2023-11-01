@@ -43,7 +43,7 @@ export type Contact = {
 
 export type ContactFormInput = ContactInput & { phones: PhoneInput[] };
 
-type Mode =
+export type Mode =
   | "read"
   | "create"
   | "update"
@@ -160,24 +160,6 @@ export default function ContactProvider({ children }: ContactProviderProps) {
   const isBottom = useDetectScrolledToBottom(); // pagination purpose
 
   {
-    /** =================================== QUERIES + MUTATIONS =================================== */
-  }
-
-  const { loadingFetch, loadingSearch, handleSearch, handleGetContact } =
-    useContactQueries({ dispatchers: { setContacts, setSearchResult } });
-
-  const {
-    loadingInsert,
-    handleInsertContact,
-    handleUpdateContact,
-    handleDeleteContact,
-    handleBulkDeleteContact,
-  } = useContactMutations({
-    context: { selectedContact, selectedContacts },
-    dispatchers: { setContacts, setSearchResult, setSelectedContacts },
-  });
-
-  {
     /** =================================== DISPATCHERS =================================== */
   }
 
@@ -289,6 +271,24 @@ export default function ContactProvider({ children }: ContactProviderProps) {
           .concat(filterContacts)
       );
   };
+
+  {
+    /** =================================== QUERIES + MUTATIONS =================================== */
+  }
+
+  const { loadingFetch, loadingSearch, handleSearch, handleGetContact } =
+    useContactQueries({ dispatchers: { setContacts, setSearchResult } });
+
+  const {
+    loadingInsert,
+    handleInsertContact,
+    handleUpdateContact,
+    handleDeleteContact,
+    handleBulkDeleteContact,
+  } = useContactMutations({
+    context: { selectedContact, selectedContacts },
+    dispatchers: { setContacts, setSearchResult, setSelectedContact, setSelectedContacts, setMode },
+  });
 
   {
     /** =================================== EFFECTS =================================== */

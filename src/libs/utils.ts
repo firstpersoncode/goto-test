@@ -97,26 +97,35 @@ export const updateContactPhones = ({
   updatedNumbers,
   deletedNumbers,
 }: UpdateContactPhonesParams) => {
-  return contacts.map((c) => {
-    if (newNumbers.length && c.id === contactId)
-      c = { ...c, phones: [...c.phones, ...newNumbers] };
-    if (updatedNumbers.length && c.id === contactId)
-      c = {
-        ...c,
-        phones: c.phones.map((p) => {
-          let updatedNumber = updatedNumbers.find((up) => up.id === p.id);
-          return updatedNumber?.id ? { ...p, ...updatedNumber } : p;
-        }),
-      };
-    if (deletedNumbers.length && c.id === contactId)
-      c = {
-        ...c,
-        phones: c.phones.filter(
-          (p) => !Boolean(deletedNumbers.find((up) => up.id === p.id))
-        ),
-      };
+  let updatedContactPhones = undefined as Contact | undefined;
+  const updatedContacts = contacts.map((c) => {
+    const matchedId = c.id === contactId;
+
+    if (matchedId) {
+      if (newNumbers.length) c = { ...c, phones: [...c.phones, ...newNumbers] };
+      if (updatedNumbers.length)
+        c = {
+          ...c,
+          phones: c.phones.map((p) => {
+            let updatedNumber = updatedNumbers.find((up) => up.id === p.id);
+            return updatedNumber?.id ? { ...p, ...updatedNumber } : p;
+          }),
+        };
+      if (deletedNumbers.length)
+        c = {
+          ...c,
+          phones: c.phones.filter(
+            (p) => !Boolean(deletedNumbers.find((up) => up.id === p.id))
+          ),
+        };
+
+      updatedContactPhones = c;
+    }
+
     return c;
   });
+
+  return { contact: updatedContactPhones, contacts: updatedContacts };
 };
 
 /** =================================== CONTACT BULK SELECTOR =================================== */
