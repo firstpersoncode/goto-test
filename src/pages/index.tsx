@@ -60,7 +60,7 @@ export default function Home() {
           sx={{ minHeight: "100%", position: "relative" }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={7} order={{ xs: 2, sm: 1 }}>
+            <Grid item xs={12} sm={7}>
               <Grid container spacing={2}>
                 {isSearching ? (
                   <Grid item xs={12}>
@@ -92,7 +92,7 @@ export default function Home() {
                 )}
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={5} order={{ xs: 1, sm: 2 }}>
+            <Grid item xs={12} sm={5}>
               <Box sx={{ position: "sticky", top: 0 }}>
                 {/* Modals */}
                 <ContactDetail />
