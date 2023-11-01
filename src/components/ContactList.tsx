@@ -34,7 +34,7 @@ export default function ContactList({
         sx={{
           px: 1,
           position: "sticky",
-          top: 0,
+          top: { xs: 100, sm: 56 },
           zIndex: 2,
           mb: -2,
         }}

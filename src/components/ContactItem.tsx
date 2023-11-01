@@ -9,11 +9,13 @@ import {
   Star,
 } from "@mui/icons-material";
 import {
+  Avatar,
   Card,
   Checkbox,
   IconButton,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemButton,
   ListItemIcon,
   Popover,
@@ -23,7 +25,7 @@ import {
 } from "@mui/material";
 import { useContact, type Contact } from "@/context/Contact";
 import { useDetectShiftKey } from "@/libs/hooks";
-import { getFullName } from "@/libs/utils";
+import { getFullName, randomIntFromInterval } from "@/libs/utils";
 
 interface ContactItemProps {
   contact: Contact;
@@ -49,15 +51,23 @@ export default function ContactItem({ contact, label }: ContactItemProps) {
 
   const shiftHeld = useDetectShiftKey();
 
+  const randomAvatarColor: string = useMemo(() => [
+    "primary",
+    "secondary",
+    "success",
+    "warning",
+    "error",
+  ][randomIntFromInterval(0, 4)], [])
+
   return (
-    <Card sx={{ flexGrow: 1, my: 1, px: 1 }} variant="outlined">
+    <Card sx={{ flexGrow: 1, my: 1, p: 1 }} variant="outlined">
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
         {label !== "Result" && (
           <Tooltip title="Hold Shift key to perform bulk selection">
             <Checkbox
               sx={{
                 "& .MuiSvgIcon-root": {
-                  fontSize: { xs: "14px", sm: "16px" },
+                  fontSize: { xs: "16px", sm: "14px" },
                 },
               }}
               checked={includedInSelectedContacts}
@@ -66,13 +76,18 @@ export default function ContactItem({ contact, label }: ContactItemProps) {
           </Tooltip>
         )}
 
-        {contact.isFavorite && (
+        {contact.isFavorite ? (
           <ListItemIcon sx={{ minWidth: 0 }}>
-            <Star
-              color="warning"
-              sx={{ fontSize: { xs: "14px", sm: "16px" } }}
-            />
+            <Star color="warning" />
           </ListItemIcon>
+        ) : (
+          <ListItemAvatar>
+            <Avatar
+              sx={{ backgroundColor: (theme: any) => theme.palette[randomAvatarColor]["main"] }}
+            >
+              {contact.first_name[0]?.toUpperCase()}
+            </Avatar>
+          </ListItemAvatar>
         )}
 
         {/** =================================== CONTACT INFO =================================== */}
@@ -90,13 +105,12 @@ export default function ContactItem({ contact, label }: ContactItemProps) {
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                fontSize: { xs: "12px", sm: "14px" },
               }}
             >
               {fullname}
             </Typography>
 
-            <Typography sx={{ fontSize: { xs: "8px", sm: "10px" } }}>
+            <Typography sx={{ fontSize: "12px" }}>
               {phone}
               {contact.phones.length > 1
                 ? ` and ${contact.phones.length - 1} more...`
@@ -110,11 +124,6 @@ export default function ContactItem({ contact, label }: ContactItemProps) {
         <Tooltip title="More">
           <IconButton
             size="small"
-            sx={{
-              "& .MuiSvgIcon-root": {
-                fontSize: { xs: "14px", sm: "16px" },
-              },
-            }}
             onClick={(e: BaseSyntheticEvent) => setOpenOptions(e.currentTarget)}
           >
             <MoreVert />

@@ -34,11 +34,11 @@ export default function Searchbar() {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ top: 0 }}>
+      <AppBar position="sticky" sx={{ top: 0 }}>
         <Container maxWidth="lg">
           <Stack
             sx={{
-              flexDirection: "row",
+              flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
               alignItems: "center",
               py: 1,
@@ -78,16 +78,10 @@ export default function Searchbar() {
                     color: (theme) => theme.palette.text.primary,
                   }}
                 >
-                  <Button
-                    sx={{ fontSize: { xs: "8px", md: "12px" } }}
-                    onClick={() => autoScrollToList("regular")}
-                  >
+                  <Button onClick={() => autoScrollToList("regular")}>
                     Regular
                   </Button>
-                  <Button
-                    sx={{ fontSize: { xs: "8px", md: "12px" } }}
-                    onClick={() => autoScrollToList("favorite")}
-                  >
+                  <Button onClick={() => autoScrollToList("favorite")}>
                     Favorite
                   </Button>
                 </ButtonGroup>
@@ -102,9 +96,9 @@ export default function Searchbar() {
                 backgroundColor: (theme) => theme.palette.background.paper,
                 borderRadius: 1,
                 "& .MuiInputBase-root": {
-                  height: 28,
+                  height: 30,
                 },
-                maxWidth: 400,
+                maxWidth: { xs: "100%", sm: 400 },
               }}
               inputProps={{ sx: { fontSize: "12px" } }}
               InputLabelProps={{ sx: { fontSize: "12px" } }}

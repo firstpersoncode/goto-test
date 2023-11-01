@@ -138,8 +138,8 @@ export default function Bottombar() {
                 color="error"
                 sx={{
                   mt: -5,
-                  width: { xs: 50, sm: 65 },
-                  height: { xs: 50, sm: 65 },
+                  width: { xs: 70, sm: 65 },
+                  height: { xs: 70, sm: 65 },
                   position: { xs: "absolute", sm: "relative" },
                   mx: "auto",
                   left: 0,

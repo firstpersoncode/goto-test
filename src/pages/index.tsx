@@ -51,7 +51,7 @@ export default function Home() {
           overflowX: "hidden",
           overflowY: "auto",
           backgroundColor: (theme) => theme.palette.background.default,
-          py: "55px",
+          pb: "55px",
         }}
       >
         <Toolbar />
@@ -93,7 +93,7 @@ export default function Home() {
               </Grid>
             </Grid>
             <Grid item xs={12} sm={5}>
-              <Box sx={{ position: "sticky", top: 0 }}>
+              <Box sx={{ position: "sticky", top: 60 }}>
                 {/* Modals */}
                 <ContactDetail />
                 <CreateForm />
