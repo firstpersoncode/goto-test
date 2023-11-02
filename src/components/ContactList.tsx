@@ -1,8 +1,8 @@
 import {
+  Box,
   Checkbox,
   List,
   ListItem,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -30,13 +30,12 @@ export default function ContactList({
 
   return (
     <>
-      <Paper
+      <Box
         sx={{
-          px: 1,
           position: "sticky",
-          top: { xs: 100, sm: 56 },
+          top: { xs: 112, sm: 56 },
           zIndex: 2,
-          mb: -2,
+          backgroundColor: (theme) => theme.palette.background.paper,
         }}
       >
         <Stack
@@ -50,7 +49,7 @@ export default function ContactList({
             <Checkbox
               sx={{
                 "& .MuiSvgIcon-root": {
-                  fontSize: { xs: "14px", sm: "16px" },
+                  fontSize: { xs: "16px", sm: "14px" },
                 },
               }}
               checked={filterSelectedContacts.length === list.length}
@@ -74,7 +73,7 @@ export default function ContactList({
             </Typography>
           )}
         </Stack>
-      </Paper>
+      </Box>
 
       <List id={label.toLowerCase()}>
         {list.map((contact, i) => (

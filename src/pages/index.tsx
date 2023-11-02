@@ -1,14 +1,8 @@
 import {
-  Alert,
-  AlertTitle,
   Box,
   CircularProgress,
   Container,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
@@ -22,7 +16,6 @@ import Bottombar from "@/components/Bottombar";
 import ContactDetail from "@/components/ContactDetail";
 import ContactList from "@/components/ContactList";
 import BulkDeleteForm from "@/components/BulkDeleteForm";
-import { Check, Circle } from "@mui/icons-material";
 import About from "@/components/About";
 
 export default function Home() {

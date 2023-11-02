@@ -130,7 +130,7 @@ export default function ContactProvider({ children }: ContactProviderProps) {
 
   const [contacts, setContacts] = useState(initialContext.list);
   const [searchResult, setSearchResult] = useState(initialContext.searchResult);
-  const [isSearching, setIsSearching] = useState(initialContext.isSearching)
+  const [isSearching, setIsSearching] = useState(initialContext.isSearching);
   const [selectedContact, setSelectedContact] = useState(
     initialContext.selectedContact
   );
@@ -279,7 +279,9 @@ export default function ContactProvider({ children }: ContactProviderProps) {
   }
 
   const { loadingFetch, loadingSearch, handleSearch, handleGetContact } =
-    useContactQueries({ dispatchers: { setContacts, setSearchResult, setIsSearching } });
+    useContactQueries({
+      dispatchers: { setContacts, setSearchResult, setIsSearching },
+    });
 
   const {
     loadingInsert,
@@ -289,7 +291,13 @@ export default function ContactProvider({ children }: ContactProviderProps) {
     handleBulkDeleteContact,
   } = useContactMutations({
     context: { selectedContact, selectedContacts },
-    dispatchers: { setContacts, setSearchResult, setSelectedContact, setSelectedContacts, setMode },
+    dispatchers: {
+      setContacts,
+      setSearchResult,
+      setSelectedContact,
+      setSelectedContacts,
+      setMode,
+    },
   });
 
   {
@@ -330,7 +338,7 @@ export default function ContactProvider({ children }: ContactProviderProps) {
         selectedFavOnly,
         selectedRegOnly,
         mode,
-        
+
         handleSearch,
         toggleFavorite,
         bulkToggleFavorites,

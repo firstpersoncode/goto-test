@@ -51,16 +51,16 @@ export default function ContactItem({ contact, label }: ContactItemProps) {
 
   const shiftHeld = useDetectShiftKey();
 
-  const randomAvatarColor: string = useMemo(() => [
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "error",
-  ][randomIntFromInterval(0, 4)], [])
+  const randomAvatarColor: string = useMemo(
+    () =>
+      ["primary", "secondary", "success", "warning", "error"][
+        randomIntFromInterval(0, 4)
+      ],
+    []
+  );
 
   return (
-    <Card sx={{ flexGrow: 1, my: 1, p: 1 }} variant="outlined">
+    <Card sx={{ flexGrow: 1, my: 1 }} variant="outlined">
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
         {label !== "Result" && (
           <Tooltip title="Hold Shift key to perform bulk selection">
@@ -76,29 +76,31 @@ export default function ContactItem({ contact, label }: ContactItemProps) {
           </Tooltip>
         )}
 
-        {contact.isFavorite ? (
-          <ListItemIcon sx={{ minWidth: 0 }}>
-            <Star color="warning" />
-          </ListItemIcon>
-        ) : (
-          <ListItemAvatar>
-            <Avatar
-              sx={{ backgroundColor: (theme: any) => theme.palette[randomAvatarColor]["main"] }}
-            >
-              {contact.first_name[0]?.toUpperCase()}
-            </Avatar>
-          </ListItemAvatar>
-        )}
-
         {/** =================================== CONTACT INFO =================================== */}
 
         <ListItemButton
-          sx={{ flexGrow: 1, gap: 1, p: 1 }}
+          sx={{ flexGrow: 1, gap: 1, p: 1, py: 2 }}
           onClick={() => {
             selectContact(contact.id);
             setMode("read");
           }}
         >
+          <ListItemAvatar>
+            <Avatar
+              sx={{
+                backgroundColor: contact.isFavorite
+                  ? "transparent"
+                  : (theme: any) => theme.palette[randomAvatarColor]["main"],
+              }}
+            >
+              {contact.isFavorite ? (
+                <Star color="warning" />
+              ) : (
+                contact.first_name[0]?.toUpperCase()
+              )}
+            </Avatar>
+          </ListItemAvatar>
+
           <Stack sx={{ flexGrow: 1, overflow: "hidden" }}>
             <Typography
               sx={{

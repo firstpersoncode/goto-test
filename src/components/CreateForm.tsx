@@ -60,6 +60,7 @@ export default function CreateForm() {
             mx: 0,
             my: 2,
             width: "100%",
+            boxShadow: (theme) => theme.shadows["1"],
           },
         }}
       >

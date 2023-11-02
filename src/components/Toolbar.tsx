@@ -3,7 +3,6 @@ import { Close, Contacts, Search } from "@mui/icons-material";
 import {
   AppBar,
   Button,
-  ButtonGroup,
   Container,
   IconButton,
   Stack,
@@ -11,14 +10,12 @@ import {
 } from "@mui/material";
 import { useContact } from "@/context/Contact";
 import Alert, { useAlert } from "./Alert";
-import { useTheme } from "@/context/Theme";
 
 export default function Searchbar() {
-  const { handleSearch } = useContact();
+  const { favList, handleSearch } = useContact();
   const [displaySearch, setDisplaySearch] = useState("");
   const [clicked, setClicked] = useState(0);
   const { alert, setAlert, onClose } = useAlert();
-  const { viewMode } = useTheme();
 
   const autoScrollToList = (label: string) => {
     const main = document.getElementById("main");
@@ -40,14 +37,21 @@ export default function Searchbar() {
             sx={{
               flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: { xs: "flex-start", sm: "center" },
               py: 1,
               gap: 2,
             }}
           >
             {/** =================================== HEADER ICON =================================== */}
 
-            <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 1,
+                order: { xs: 2, sm: 1 },
+              }}
+            >
               <IconButton
                 edge="start"
                 color="inherit"
@@ -70,21 +74,21 @@ export default function Searchbar() {
               >
                 <Contacts />
               </IconButton>
-              {viewMode !== "column" && (
-                <ButtonGroup
-                  size="small"
-                  variant="contained"
-                  sx={{
-                    color: (theme) => theme.palette.text.primary,
-                  }}
-                >
-                  <Button onClick={() => autoScrollToList("regular")}>
-                    Regular
-                  </Button>
-                  <Button onClick={() => autoScrollToList("favorite")}>
+              {favList.length > 0 && (
+                <>
+                  <Button
+                    color="inherit"
+                    onClick={() => autoScrollToList("favorite")}
+                  >
                     Favorite
                   </Button>
-                </ButtonGroup>
+                  <Button
+                    color="inherit"
+                    onClick={() => autoScrollToList("regular")}
+                  >
+                    Regular
+                  </Button>
+                </>
               )}
             </Stack>
 
@@ -96,15 +100,16 @@ export default function Searchbar() {
                 backgroundColor: (theme) => theme.palette.background.paper,
                 borderRadius: 1,
                 "& .MuiInputBase-root": {
-                  height: 30,
+                  height: 40,
                 },
                 maxWidth: { xs: "100%", sm: 400 },
+                order: { xs: 1, sm: 2 },
               }}
               inputProps={{ sx: { fontSize: "12px" } }}
               InputLabelProps={{ sx: { fontSize: "12px" } }}
               placeholder="Search ..."
               size="small"
-              // variant="outlined"
+              variant="outlined"
               value={displaySearch}
               onChange={(e) => setDisplaySearch(e.target.value)}
               InputProps={{
